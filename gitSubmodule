@@ -1,0 +1,52 @@
+Update a Git Submodule
+In some cases, you are not pulling a Git submodule but you are simply look to update your existing Git submodule in the project.
+
+In order to update an existing Git submodule, you need to execute the “git submodule update” with the “–remote” and the “–merge” option.
+
+$ git submodule update --remote --merge
+Using the “–remote” command, you will be able to update your existing Git submodules without having to run “git pull” commands in each submodule of your project.
+
+When using this command, your detached HEAD will be updated to the newest commit in the submodule repository.
+
+Given the example that we used before, when updating the submodule, we would get the following output
+
+$ git submodule update --remote --merge
+
+Updating 43d0813..93360a2
+Fast-forward
+ README.md | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+Submodule path 'vendors': merged in '93360a21dc79011ff632b68741ac0b9811b60526'
+Fetch new submodule commits
+In this section, you are looking to update your Git repository with your commits coming from the submodule repository.
+
+First, you may want to fetch new commits that were done in the submodule repository.
+
+Let’s say for example that you want to fetch two new commits that were added to the submodule repository.
+
+To fetch new commits done in the submodule repository, head into your submodule folder and run the “git fetch” command first (you will get the new submodule commits)
+
+$ cd repository/submodule 
+
+$ git fetch
+Now, if you run the “git log” command again, you will be able to see the new commits you are looking to integrate.
+
+$ git log --oneline origin/master -3
+
+93360a2 (origin/master, origin/HEAD) Second commit
+88db523 First commit
+43d0813 (HEAD -> master) Initial commit
+Now, in order for your submodule to be in-line with the newest commits, you can run the “git checkout” command and specify the SHA that you want to update your submodule to (in this case 93360a2)
+
+$ git checkout -q 93360a2
+Great! Your HEAD is now aligned with the newest commits from the submodule repository.
+
+You can now go back to your main repository and commit your changes for other developers to fetch those new commits.
+
+$ cd repository
+
+$ git add .
+
+$ git commit -m "Added new commits from the submodule repository"
+
+$ git push
